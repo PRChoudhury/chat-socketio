@@ -1,0 +1,75 @@
+
+     
+<!--
+ANGULAR -CLIENT SIDE VALIDATION FOR FORM INPUTS 
+REFER  :: :: MEAN Stack App Part 13: Front-End Form Validation w/AngularJS 
+YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
+
+
+-->
+
+
+
+      <div class="header clearfix">
+               <h3 class="text-muted">Register</h3>
+               </div>
+               
+
+     
+      <div class="row">
+       <div class="col-md-6 col-md-offset-1">
+       
+      
+          <!--<form class="regForm" name="regForm" method="POST" action="/users/register">-->
+          <form name = "regForm" ng-submit="register.registerUser(user)" class = "form" novalidate>
+         
+        <div class="form-group" ng-class="{ 'has-error' : (regForm.uname.$invalid && !regForm.uname.$pristine) || (regForm.uname.$invalid && regForm$submitted) ,'has-success' : (regForm.uname.$valid && !regForm.uname.$pristine)}">
+            <label>Name</label>
+            <input type="text" name="uname" ng-minlength ='3' ng-maxlength ='20' class="form-control" ng-model="register.user.name" placeholder="Please enter name" required>
+            <p ng-show="regForm.uname.$error.required && !regForm.uname.$pristine" class="help-block">Your name is required.
+            <ul ng-show="(regForm.uname.$error.minlength && !regForm.uname.$pristine) || (regForm.uname.$error.maxlength && !regForm.uname.$pristine) " class="help-block">
+            	<li> Must be at least  3 characters but not more than 20</li>
+            </ul>
+            </p>
+        </div>
+
+            <div class="form-group" ng-class="{ 'has-error' :(regForm.uemail.$invalid && !regForm.uemail.$pristine) || (regForm.uemail.$invalid && regForm.$submitted) ,'has-success' : (regForm.uemail.$valid && !regForm.uemail.$pristine) }">
+            <label>Email</label>
+            <input type="email" name="uemail" class="form-control" ng-model="register.user.email" placeholder="Please enter email" required>
+            <p ng-show="regForm.uemail.$invalid && !regForm.uemail.$pristine" class="help-block">Your email is required.</p>
+        </div>
+             <div class="form-group" ng-class="{ 'has-error' : regForm.upass.$invalid && !regForm.upass.$pristine }">
+            <label>Password</label>
+            <input type="password" name="upass" class="form-control" ng-model="register.user.pass" placeholder = "Please enter password" required>
+            <p ng-show="regForm.upass.$invalid && !regForm.upass.$pristine" class="help-block">Your Password is required.</p>
+        </div>
+            <div class="form-group" ng-class=" {'has-error' : regForm.upass2.$invalid && !regForm.upass2.$pristine }">
+            <label>Confrim Password </label>
+            <input type="password" name="upass2" class="form-control" ng-model="register.user.confirmpass" placeholder="please enter confirm password" required>
+            <p ng-show="regForm.upass2.$invalid && !regForm.upass2.$pristine" class="help-block">Confirm password is required.</p>
+        </div>
+          <button type="submit" class="btn btn-primary" ng-disabled="regForm.$invalid">Submit</button>
+        </form>
+
+
+        </div>
+        <br>
+  <div class="row show-hide-message col-md-6 col-md-offset-2" ng-show="success_msg">
+        
+        <div class="alert alert-success"> {{success_msg}}</div>
+      </div>
+      </br>
+
+       <div class="row show-hide-message col-md-6 col-md-offset-2" ng-show="error_msg">
+        
+        <div class="alert alert-danger"> {{error_msg}}</div>
+      </div>
+
+      </br>
+       
+      </div>
+      
+      <footer class="footer">
+        <p>&copy; 2017 Contact List App, Inc.</p>
+      </footer>
+
