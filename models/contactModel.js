@@ -1,13 +1,16 @@
 var mongoose = require('mongoose');
 var contactSchema = mongoose.Schema({
-	name: String,
-    email: String,
-    number: String,
-    imageProfile: String   
+	name: {type:String,required:true},
+    email: {type:String,required:true},
+    number: {type:String,required:true},
+    imageProfile: {type:String, required:true , default:'emptyPic.jpg'},
+    altnumber : String,
+    address : String,
+    uemail : {type:String,required:true}
 
 })
 //db connection ends 
 //var models= mongoose.model('contactlists', contactSchema);
 var collectionName = 'contactlist';
-var contactModel = mongoose.model('contactlist', contactSchema, collectionName)
-module.exports = contactModel;
+var contactmodel = mongoose.model('contactlist', contactSchema, collectionName)
+module.exports = contactmodel;

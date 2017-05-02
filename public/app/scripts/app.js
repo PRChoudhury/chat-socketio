@@ -35,7 +35,7 @@ var app = angular.module('publicApp', [
       .when('/activate/:token', {
         templateUrl : 'views/activate.html',
         controller : 'EmailCtrl',
-        controllerAs: 'email',
+        controllerAs: 'email'
        // authenticated : false
       })
       .when('/home', {
@@ -55,7 +55,57 @@ var app = angular.module('publicApp', [
         authenticated : true
        
         })
-     
+      .when('/authUsername' , {
+          templateUrl : 'views/authUsername.html',
+          controller : 'UsernameCtrl',
+          controllerAs : 'username'
+
+      })
+      .when('/authPassword' , {
+        templateUrl :'views/authPassword.html',
+        controller : 'PasswordCtrl',
+        controllerAs : 'password'
+
+      })
+      .when('/reset/:token' ,{
+        templateUrl : 'views/passReset.html',
+        controller  : 'ResetCtrl',
+        controllerAs: 'reset', 
+
+      })
+      .when('/facebook/:token' ,{
+        templateUrl : 'views/social.html',
+        controller  : 'facebookCtrl',
+        controllerAs :'facebook'
+      })
+      .when('/facebookerror' , {
+
+        templateUrl :'views/login.html',
+        controller :'facebookCtrl',
+        controllerAs :'facebook'
+
+      })
+        .when('/google/:token' ,{
+        templateUrl : 'views/social.html',
+        controller  : 'googleCtrl',
+        controllerAs :'google'
+      })
+      .when('/googleerror' , {
+
+        templateUrl :'views/login.html',
+        controller :'googleCtrl',
+        controllerAs :'google'
+
+      })
+      .when('/settings' , {
+        templateUrl : 'views/settings.html',
+        controller : 'MainCtrl',
+        controllerAs:'main'
+
+      })
+       .when('/about' , {
+        templateUrl : 'views/about.html'
+       })
       .otherwise({
         redirectTo: '/'
       });
@@ -68,6 +118,7 @@ var app = angular.module('publicApp', [
 app.run(['$rootScope', 'authToken', '$location', function($rootScope,authToken,$location){
 
   $rootScope.$on('$routeChangeStart' ,function(event,next,current){
+    if(next.$$route !== undefined) {
       if(next.$$route.authenticated == true){
           if(!authToken.isLoggedIn()){
               event.preventDefault();
@@ -82,6 +133,7 @@ app.run(['$rootScope', 'authToken', '$location', function($rootScope,authToken,$
           }
 
       }
+    }
 
   });
 
@@ -96,4 +148,3 @@ app.controller('headerCtrl',function($scope,$location){
 
 
 });
-

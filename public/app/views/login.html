@@ -1,5 +1,5 @@
 
-      <div class="header clearfix">
+      <div class="header clearfix " >
                <h3 class="text-muted">Login</h3>
               
       </div>
@@ -20,7 +20,28 @@
         		<input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="login.log.password">
         	</div>
         	<button type="submit" class="btn btn-default" >Submit</button>&nbsp;
-          <a href="/auth/facebook" target="_blank"><button type="button" class="btn btn-primary"><i class="fa fa-facebook-official"></i> facebook </button></a>
+          
+          <div class="pull-right">
+            <a href="/authUsername"><button type="button" class="btn btn-default"> Forgot Username </button></a>
+
+            <a href="/authPassword"><button type="button" class="btn btn-default">Forgot Password</button></a>
+            </div>
+            <br>
+            <div class = 'form-group'>
+                
+               <button type='button' class="page-header btn btn-primary" ng-click="login.facebook()">
+                <i class="fa fa-facebook"></i> Facebook </button>
+              
+              &nbsp;
+              <button type ="button" class="page-header btn btn-danger" ng-click="login.google()">
+                <i class="fa fa-google-plus"></i> Google </button>
+             
+
+
+            </div>
+
+          </div>
+
         </form>
 
         </div>
@@ -29,12 +50,23 @@
       </div>
        </br>
 
-       <div class="row show-hide-message col-md-8" ng-show="error_msg">
+       <div class="row show-hide-message col-md-8 col-xs-8" ng-show="error_msg">
         
         <div class="alert alert-danger"> {{error_msg}}</div>
         </div>
 
-      <footer class="footer">
+      <div class="row show-hide-message col-md-8" ng-show="facebook.error_msg">
+        
+        <div class="alert alert-danger"> {{facebook.error_msg}}</div>
+        </div>
+
+
+        <div class="row show-hide-message col-md-8 col-xs-8" ng-show="google.error_msg">
+        
+        <div class="alert alert-danger"> {{google.error_msg}}</div>
+        </div>
+
+      <footer class="footer ">
         <p>&copy; 2017 Contact List App, Inc.</p>
       </footer>
 

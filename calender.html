@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Calendar </title>
+
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<style type="text/css">
+	.activeDay{
+
+		background-color: orange;
+		font-weight: 	bold;
+	}
+
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<body>
+<div class="container">
+	<nav class="navbar navbar-inverse col-md-12">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#">To-do List</a>
+	</div>	
+    <ul type="none" class=" nav navbar-nav">
+    <li class="active"><a href="#">Todo List</a></li>
+    <li><a href="calendar.html">My Calendar</a></li>
+    <li><a href="#">Subject</a></li>
+    <li><a href="#">Time Table</a> </li>
+    <li><a href="user.php">All Users</a> </li>
+    </ul>
+
+
+    </nav>
+
+
+
+   	<p><h1 class="text-left"> My Calendar</h1></p>
+   	<div class="page-header col-md-12 text-center">
+   
+   	<span class="col-md-3" onclick="showNewCalender('prev');" id="PrevMonth"></span> 
+   	<span class="col-md-6 text text-primary" id="currentMonth"></span>
+   	<span class="col-md-3" onclick="showNewCalender('next')" id="NextMonth"></span>
+   	</div>
+   	<div id="Calendar">
+   		
+   	</div>
+
+
+</div>
+
+<script type="text/javascript">
+	
+
+	var date = new Date();
+	
+
+	var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+	var days = ['Sunday','Monday','Tuesday','Thursday','Friday','Saturday'];
+	var currentYear = date.getFullYear();
+	var currentMonth	=date.getMonth();
+	var currentMonthDisp  = months[currentMonth];
+	var currentDate = date.getDate();
+	var previous = months[currentMonth-1];
+	var next = months[currentMonth+1];
+		//console.log("in");
+
+	function daysInMonth(month,year) {
+ 		   	return new Date(year, month, 0).getDate();		
+		} 	
+
+	function changeDisp(arg) {
+		 currentMonthDisp  = months[arg];
+		 document.querySelector("#currentMonth").innerHTML=currentMonthDisp+", "+currentYear;
+	//	 document.querySelector("#PrevMonth").innerHTML=previous;
+		// document.querySelector("NextMonth").innerHTML=next;
+	}
+	function changeDispPrev(arg) {
+		 arg>=0?currentMonthDisp  = months[arg]:currentMonthDisp = months[11];
+		 document.querySelector("#PrevMonth").innerHTML=currentMonthDisp+", "+currentYear;
+	//	 document.querySelector("#PrevMonth").innerHTML=previous;
+		// document.querySelector("NextMonth").innerHTML=next;
+	}
+	function changeDispNext(arg) {
+		 arg<=11?currentMonthDisp  = months[arg]:currentMonthDisp = months[0];
+		 document.querySelector("#NextMonth").innerHTML=currentMonthDisp+", "+currentYear;
+	//	 document.querySelector("#PrevMonth").innerHTML=previous;
+		// document.querySelector("NextMonth").innerHTML=next;
+	}
+
+	function showNewCalender(id){ 
+		$('#Calendar').html('');
+			if(id == 'prev'){
+
+					
+					
+					currentMonth = currentMonth	-1;
+					if(currentMonth < 0){
+						currentMonth = 11;
+						
+						
+					}
+					
+					changeDisp(currentMonth);
+					changeDispPrev(currentMonth-1);
+					changeDispNext(currentMonth+1);
+  	
+			
+
+			}
+
+			if(id =='next'){
+						
+						
+						currentMonth = currentMonth	+1;
+						if(currentMonth > 11)
+						{
+							currentMonth = 0;
+							changeDispNext(currentMonth-1);
+						}
+					
+						changeDisp(currentMonth);
+						changeDispPrev(currentMonth-1);
+						changeDispNext(currentMonth+1);
+						
+			}
+		//	console.log(currentMonth+"prevMonth");
+
+		//	console.log(currentMonth+"currentMonth");
+			
+		//	console.log(currentMonth+"nextMonth");
+			showCalender(daysInMonth(currentMonth+1,currentYear));
+
+	}
+
+	
+	document.querySelector("#currentMonth").innerHTML=currentMonthDisp+", "+currentYear;
+	document.querySelector("#PrevMonth").innerHTML=previous+", "+currentYear;
+	document.querySelector("#NextMonth").innerHTML=next+", "+currentYear;
+	function showCalender(NumDaysCurMonth){
+			NumDaysCurMonth = daysInMonth(currentMonth+1,currentYear);
+
+			var tab = "<table border=1 class='table'>";	
+			tab+= "<tr>";
+			for (var i = 1; i<=NumDaysCurMonth; i++) {
+			  tab+= "<td id="+'id'+i+">";
+			  tab+= i;
+			  tab+="</td>";	
+
+			}
+			tab+= "</tr>";
+			tab+= "</table>";
+			$(tab).appendTo("#Calendar");
+			$("#id"+currentDate).addClass('activeDay');
+}
+
+ 		showCalender(daysInMonth(currentMonth+1,currentYear));
+</script> 		
+</body>
+</html>

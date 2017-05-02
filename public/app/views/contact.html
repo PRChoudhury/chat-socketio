@@ -1,1 +1,83 @@
-<p>This is the contact view.</p>
+
+     
+<!--
+ANGULAR -CLIENT SIDE VALIDATION FOR FORM INPUTS 
+REFER  :: :: MEAN Stack App Part 13: Front-End Form Validation w/AngularJS 
+YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
+
+
+-->
+
+
+
+      <div class="header clearfix">
+               <h3 class="text-muted">
+               </h3>
+               </div>
+               
+    
+      <div class="row">
+       <div class="col-md-6 col-md-offset-1">
+       <form name='contactForm' class='form' ng-submit='contact.addNew(user,contactForm.$valid)' novalidate>
+         
+         <div class="form-group" ng-class="{'has-error' : (contactForm.name.$invalid && !contactForm.name.$pristine) || (contactForm.name.$invalid && contactForm.$submitted ) , 'has-success' :(contactForm.name.$valid && !contactForm.name.$pristine) }">
+         <!--New Contact Name-->
+         <label>Name</label>
+         <input type="text" name="name" ng-model='contact.user.name' class='form-control' ng-minlength='3' ng-maxlength='20' placeholder="name" required="">
+         <!--/Name-->
+         <p class='help-block' ng-show='(contactForm.name.$error.required && !contactForm.name.$pristine) || (contactForm.name.$error.required && contactForm.$submitted)'>Name is required.</p>
+         </div>
+
+         <div class="form-group" ng-class="{'has-error' : (contactForm.email.$invalid && !contactForm.email.$pristine) || (contactForm.email.$invalid && contactForm.$submitted) , 'has-success' :(contactForm.email.$valid && !contactForm.email.$pristine)}">
+         <label>Email</label>
+         <input type="email" class="form-control" name="email" ng-model='contact.user.email' placeholder=" email" required>
+         <p class='help-block' ng-show='(contactForm.email.$error.required && !contactForm.email.$pristine) || (contactForm.email.$error.required && contactForm.$submitted)'>Email is required.</p>
+         </div> 
+
+         <div class="form-group" ng-class="{'has-error' : (contactForm.pnumber.$invalid && !contactForm.pnumber.$pristine) || (contactForm.pnumber.$invalid && contactForm.$submitted) , 'has-success' :(contactForm.pnumber.$valid && !contactForm.pnumber.$pristine)}">
+         <label>Phone Number</label>
+         <input type="text" name="pnumber" ng-model='contact.user.pnumber' class='form-control' placeholder="primary number" ng-minlength = '8'ng-maxlength='14' required>
+         <p class='help-block' ng-show='(contactForm.pnumber.$error.required && !contactForm.pnumber.$pristine)|| (contactForm.pnumber.$error.required && contactForm.$submitted)'>Primary phone number is required.</p>
+         </div>
+
+         <div class="form-group" ng-class="{'has-error' :(contactForm.altnumber.$invalid && !contactForm.altnumber.$pristine) || (contactForm.altnumber.$invalid && contactForm.$submitted ) ,'has-success' :(contactForm.altnumber.$valid && !contactForm.altnumber.$pristine)}">
+         <label>Alternate Phone Number</label>
+         <input type="text" name="altnumber" class="form-control" ng-model="contact.user.altnumber" placeholder="alternate number" ng-minlength ='8'ng-maxlength ='14'>
+         </div>
+
+
+         <div class="form-group" ng-class="{'has-error' :(contactForm.address.$invalid && !contactForm.address.$pristine) || (contactForm.address.$invalid && contactForm.$submitted) , 'has-success' : (contactForm.address.$valid && !contactForm.address.$pristine)}">
+         <label>Address</label>
+         <textarea class='form-control' name='address' ng-model='contact.user.address' placeholder="address" ></textarea>
+         </div>
+
+         <button type="submit" name="submit" class='btn btn-primary pull-right'>
+         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Contact </button>
+
+
+       </form>
+      
+        
+
+        </div>
+        </div><br>
+        <br>
+  <div class="row show-hide-message col-md-6 col-xs-8 col-md-offset-1" ng-show="contact.success_msg">
+        
+        <div class="alert alert-success"> {{contact.success_msg}}</div>
+      </div>
+      </br>
+
+       <div class="row show-hide-message col-md-6 col-xs-8 col-md-offset-1" ng-show="contact.error_msg">
+        
+        <div class="alert alert-danger"> {{contact.error_msg}}</div>
+      </div>
+
+      </br>
+       
+      </div>
+      
+      <footer class="footer">
+        <p>&copy; 2017 Contact List App, Inc.</p>
+      </footer>
+

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="publicApp">
   <head>
+    <base href="/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,9 +14,9 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template -->
     <link href="../styles/main.css" rel="stylesheet">
@@ -23,7 +24,7 @@
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+ 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -34,14 +35,14 @@
 
   <body ng-controller="LoginCtrl as login">
 
-    <div class="container">
+ <!--   <div class="container-fluid">
 
       <!-- The justified navigation menu is meant for single line per list item.
            Multiple lines will require custom code not provided by Bootstrap. -->
-      <div class="masthead" ng-controller='headerCtrl'>
+   <!--   <div class="masthead" ng-controller='headerCtrl'>
         <!--<h3 class="text-muted">Project name</h3>-->
-        <nav>
-          <ul class="nav nav-justified">
+     <!--   <nav class="navbar navbar-default ">
+          <ul class="nav nav-justified" ng-show="login.dispNav">
             <li ng-hide="login.loggedIn" ng-class="{ active: isActive('/')}"><a href="/">Login</a></li>
             <li ng-hide="login.loggedIn" ng-class="{ active: isActive('/register')}"><a href="register">Register</a></li>
             <li ng-show="login.loggedIn" ng-class="{ active: isActive('/home')}"><a href="/home">Home</a></li>
@@ -54,17 +55,58 @@
       </div>
 
       <!-- Jumbotron -->
-      <div class="container">
-      <h4 ng-show="username" ng-cloak> Welcome,{{username}}</h4>
-        <div ng-view="">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Contacts</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="headerCtrl">
+      <ul class="nav navbar-nav">
+          <li ng-hide="login.loggedIn" ng-class="{ active: isActive('/')}"><a href="/">Login</a></li>
+            <li ng-hide="login.loggedIn" ng-class="{ active: isActive('/register')}"><a href="register">Register</a></li>
+            <li ng-show="login.loggedIn" ng-class="{ active: isActive('/home')}"><a href="/home">Home</a></li>
+              <li ng-show="login.loggedIn" ng-class="{ active: isActive('/contact')}"><a href="/contact">Add Contact</a></li>
+            <li ng-show="login.loggedIn" ng-class="{ active: isActive('/about')}"><a href="/about">About</a></li>
           
+            
+                
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;{{login.username}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li ng-show="login.loggedIn" ng-class="{ active: isActive('/settings')}"><a href="/settings">
+            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp;Settings</a></li>
+            <li ng-show="login.loggedIn" ng-class="{ active: isActive('/Logout')}"><a href="#" ng-click="login.logout()">
+            &nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout </a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+<br> <br>
+
+        <div ng-view="" class="col-md-offset-1">     
         </div>
 
-      </div>
-
-      </br>
-
-      </div>
+     
 
       
       <!-- Site footer -->
@@ -78,14 +120,14 @@
      <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 
 
     <!-- endbower -->
@@ -94,13 +136,11 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/contact.js"></script>
+        <script src="scripts/controllers/contactCtrl.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/register.js"></script>
         <script src="scripts/controllers/email.js"></script>
         <!-- endbuild -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+ 
   </body>
-
-
 </html>

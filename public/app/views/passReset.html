@@ -1,0 +1,63 @@
+
+     
+<!--
+ANGULAR -CLIENT SIDE VALIDATION FOR FORM INPUTS 
+REFER  :: :: MEAN Stack App Part 13: Front-End Form Validation w/AngularJS 
+YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
+
+
+-->
+
+
+
+      <div class="header clearfix">
+               <h3 class="text-muted">Reset Password</h3>
+               </div>
+               
+
+     
+      <div class="row">
+       <div class="col-md-6 col-md-offset-1">
+       
+      
+          <!--<form class="regForm" name="regForm" method="POST" action="/users/register">-->
+          <form ng-hide='reset.hide' name = "regForm" ng-submit="reset.savePassword(user)" class = "form" novalidate>
+         
+        
+             <div class="form-group" ng-class="{ 'has-error' : regForm.upass.$invalid && !regForm.upass.$pristine }">
+            <label>Password</label>
+            <input type="password" name="upass" class="form-control" ng-model="reset.user.pass" placeholder = "Please enter password" required>
+            <p ng-show="regForm.upass.$invalid && !regForm.upass.$pristine" class="help-block">Your Password is required.</p>
+        </div>
+            <div class="form-group" ng-class=" {'has-error' : regForm.upass2.$invalid && !regForm.upass2.$pristine }">
+            <label>Confrim Password </label>
+            <input type="password" name="upass2" class="form-control" ng-model="reset.user.confirmpass" placeholder="please enter confirm password" valid-password-c required >
+            <!-- <p ng-show="regForm.upass2.$invalid && !regForm.upass2.$pristine" class="help-block">Confirm password is required.</p> -->
+             <p class="help-block" ng-show="!regForm.upass2.$error.required && regForm.upass2.$error.noMatch && regForm.upass.$dirty">* Passwords do not match.</p>
+
+        </div>
+          <button type="submit" class="btn btn-primary" >Submit</button>
+        </form>
+
+
+        </div>
+        <br>
+  <div class="row show-hide-message col-md-6 col-xs-8 col-md-offset-2" ng-show="reset.success_msg">
+        
+        <div class="alert alert-success"> {{reset.success_msg}}</div>
+      </div>
+      </br>
+
+       <div class="row show-hide-message col-md-6 col-xs-8 col-md-offset-2" ng-show="reset.error_msg">
+        
+        <div class="alert alert-danger"> {{reset.error_msg}}</div>
+      </div>
+
+      </br>
+       
+      </div>
+      
+      <footer class="footer">
+        <p>&copy; 2017 Contact List App, Inc.</p>
+      </footer>
+

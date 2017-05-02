@@ -17,22 +17,22 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 // }
 
 // // or
-
+var options = {
+		auth: {
+		//	api_user: 'prithwi',
+			api_key: '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'
+			
+		}
+	}
+		
+var mailer = nodemailer.createTransport(sgTransport(options));
 
 /* GET users listing. */
 router.route('/register')
 
 	.post(function(req,res){
 
-		var options = {
-		auth: {
-		//	api_user: 'prithwi',
-			api_key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-			
-		}
-	}
 		
-	var mailer = nodemailer.createTransport(sgTransport(options));
 
 
 		var name = req.body.name;
@@ -116,6 +116,9 @@ passport.use(new LocalStrategy(
 				if(err) throw err;
 				if(!user){
 					return done(null , false ,{message:'Could not authenticate user.'})
+				}else if(user && user.active ==false){
+					return done(null , false ,{message:'Account is not yet activated, please visit email for activation link.'});
+
 				}
 			usermodel.comparePassword(password,user.pass, function(err,isMatch){
 				if(err) throw err;
@@ -189,9 +192,9 @@ router.put('/activate/:token' ,function(req,res){
 			var token = req.params.token;
 			jwt.verify(token,secret,function(err,decoded){
 				if(err){
-					res.json({success:false,message:"Activation link has expired."});
+					res.json({success:false,message:"Activation link has expired.",expired:true});
 				}else if(!user){
-					res.json({success:false,message:"Activation link has expired."});	
+					res.json({success:false,message:"Activation link has expired." , expired:true});	
 				}else{
 					user.temporarytoken = false;
 					user.active = true;
@@ -230,6 +233,161 @@ router.put('/activate/:token' ,function(req,res){
 	});
 
 });
+
+
+router.get('/resetusername/:email' ,function(req,res){
+
+usermodel.findOne({email:req.params.email} , function(err,user){
+
+	if (err){
+		res.json({success:false,message:err})
+	}else if(!user){
+		res.json({success:false,message:"Email not found."});
+
+	}else{
+
+		var email = {
+				to: user.email,
+				from: ['prithwiApp', 'apptest@localhost.com'],
+				subject: 'localhost - Username',
+				text: 'Awesome sauce',
+				html: '<b>Username : '+user.name+'</p>'
+				};
+
+				mailer.sendMail(email, function(err, res) {
+					if (err) { 
+						console.log(err) 
+					}
+					console.log(" Message sent : "+res);
+				});
+
+
+
+		res.json({success:true,message:"Username sent to your email Id."});
+	}
+})
+
+});
+
+
+router.put('/resetuserpass/:name' ,function(req,res){
+console.log(req.params.name);
+usermodel.findOne({name:req.params.name} , function(err,user){
+
+	if (err){
+		res.json({success:false,message:err})
+	}else if(!user){
+		res.json({success:false,message:"Username not found."});
+
+	}else{
+		console.log(req.body.username);
+		user.resettoken =jwt.sign({username : user.name , email:user.email},secret,{expiresIn:'24h'});
+		user.save(function(err){
+			if(err){
+				res.json({success:false,message:err});
+			}else{
+				var email = {
+				to: user.email,
+				from: ['prithwiApp', 'apptest@localhost.com'],
+				subject: 'localhost - Username',
+				text: 'Awesome sauce',
+				html: '<b>Reset password link:</p><a href = "http://localhost:3000/reset/'+user.resettoken+'">Click here to reset your password</a>'
+				};
+
+				mailer.sendMail(email, function(err, res) {
+					if (err) { 
+						console.log(err) 
+					}
+					console.log(" Message sent : "+res);
+				});
+
+
+
+					res.json({success:true,message:"Password reset link sent to your email Id."});
+				}
+
+			});
+
+		}
+		
+	})
+
+});
+
+
+router.get('/resetuserpass/:token' ,function(req,res){
+
+	var token  = req.params.token;
+
+	usermodel.findOne({resettoken:token} ,function(err,user){
+		if(err) throw err;
+
+			jwt.verify(token,secret,function(err,decoded){
+				if(err){
+					res.json({success:false,message:"Password link has expired.",expired:true});
+				}else if(!user){
+					res.json({success:false,message:"Password link has expired." , expired:true});	
+				}else{
+					
+					res.json({success:true,user:user});
+
+					
+				}
+
+			});
+
+
+	});
+
+});
+
+
+router.put('/saveNewPass',function(req,res){
+	console.log(req.body.username);
+	usermodel.findOne({name:req.body.username} ,function(err,user){
+		if(err) throw err;
+		user.pass = req.body.pass;
+		user.resettoken ="false";
+		usermodel.createUser(user , function(err,user){
+			if(err){
+				res.json({success :false , message:err});
+			}else{
+				res.json({success :true , message :"password has been reset!"});
+			}
+
+
+		})
+	});
+
+});
+
+
+router.put('/changepass/:curid',function(req,res){
+	console.log(req.body.oldpass);
+	usermodel.findOne({email:req.params.curid} ,function(err,user){
+		if(err) throw err;
+			usermodel.comparePassword(req.body.oldpass,user.pass, function(err,isMatch){
+				if(err) throw err;
+					if(isMatch){
+						user.pass = req.body.pass;
+						usermodel.createUser(user  ,function(err,user){
+							if(err){
+								res.json({success:false , message:"Sorry ! Could not reset password."});
+							}else{
+								res.json({success:true , message : "Your password has been changed."});
+							}
+
+						});
+						
+					}else {
+						res.json({success:false,message:"Old password incorrect."});
+					}
+
+				});
+	});
+
+});
+
 
 router.use(function(req,res,next){
 

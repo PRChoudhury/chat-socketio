@@ -1,0 +1,69 @@
+
+     
+<!--
+ANGULAR -CLIENT SIDE VALIDATION FOR FORM INPUTS 
+REFER  :: :: MEAN Stack App Part 13: Front-End Form Validation w/AngularJS 
+YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
+
+
+-->
+
+
+
+      <div class="header clearfix">
+               <h3 class="text-muted">Change Password</h3>
+               </div>
+               
+
+     
+      <div class="row">
+       <div class="col-md-6 col-md-offset-1">
+       
+      
+          <!--<form class="regForm" name="regForm" method="POST" action="/users/register">-->
+          <form  name = "regForm" ng-submit="main.changePassword(user)" class = "form" novalidate>
+              <div class="form-group" ng-class="{ 'has-error' : regForm.upass.$invalid && !regForm.upass.$pristine }">
+            <label>Old Password</label>
+            <input type="password" name="oldpass" class="form-control" ng-model="main.user.oldpass" placeholder = "Please enter old password" required>
+            <p ng-show="regForm.oldpass.$invalid && !regForm.oldpass.$pristine" class="help-block">Your Password is required.</p>
+        </div>
+
+
+        
+             <div class="form-group" ng-class="{ 'has-error' : regForm.upass.$invalid && !regForm.upass.$pristine }">
+            <label>New Password</label>
+            <input type="password" name="upass" class="form-control" ng-model="main.user.pass" placeholder = "Please enter new password" required>
+            <p ng-show="regForm.upass.$invalid && !regForm.upass.$pristine" class="help-block">Your Password is required.</p>
+        </div>
+            <div class="form-group" ng-class=" {'has-error' : regForm.upass2.$invalid && !regForm.upass2.$pristine }">
+            <label>Confrim Password </label>
+            <input type="password" name="upass2" class="form-control" ng-model="main.user.confirmpass" placeholder="please enter confirm password" valid-password-c required >
+            <!-- <p ng-show="regForm.upass2.$invalid && !regForm.upass2.$pristine" class="help-block">Confirm password is required.</p> -->
+            <p class="help-block" ng-show="!regForm.upass2.$error.required && regForm.upass2.$error.noMatch && regForm.upass.$dirty">* Passwords do not match.</p>
+        </div>
+          <button type="submit" class="btn btn-primary" ><i class="fa fa-key" aria-hidden="true"></i>&nbsp;Change Password</button>
+        </form>
+
+
+        </div></div>
+        <br>
+        <br>
+  <div class="row show-hide-message col-md-6 col-xs-8" ng-show="main.success_msg">
+        
+        <div class="alert alert-success"> {{main.success_msg}}</div>
+      </div>
+      </br>
+
+       <div class="row show-hide-message col-md-6 col-xs-8" ng-show="main.error_msg">
+        
+        <div class="alert alert-danger"> {{main.error_msg}}</div>
+      </div>
+
+      </br>
+       
+      </div>
+      
+      <footer class="footer">
+        <p>&copy; 2017 Contact List App, Inc.</p>
+      </footer>
+

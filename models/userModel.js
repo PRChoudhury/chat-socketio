@@ -32,6 +32,7 @@ var userSchema = mongoose.Schema({
     email: {type:String,required:true,unique:true,validate:emailValidator},
     active: {type:Boolean, required:true , default:false},
     temporarytoken :{type:String , required:true},
+    resettoken :{type:String ,required:false},
     pass: String,
     imageProfile: String   
 
@@ -53,11 +54,15 @@ module.exports.createUser = function(newUser,callback){
 
 }
 
+
+
 module.exports.getUserByUsername = function(username ,callback){
 
 	var query = {name:username};
 	usermodel.findOne(query,callback);
 }
+
+
 
 module.exports.getuserById = function(id ,callback){
 

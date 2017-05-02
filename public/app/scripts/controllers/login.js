@@ -9,6 +9,11 @@
  */
 
  var app = angular.module('publicApp');
+ app.service('profileId',function(){
+
+ 		this.curId = {};
+ });
+
  app.factory('authToken' ,function($window,$http,$q){
 
  	var authTokenFactory = {};
@@ -21,9 +26,16 @@
  		}
  	};
 
+
 	authTokenFactory.getToken = function(){
  			return $window.localStorage.getItem('token');
  	};
+
+ 	authTokenFactory.facebook = function(token){
+
+ 		return authTokenFactory.setToken(token);
+ 	};
+
 
 	authTokenFactory.isLoggedIn = function(){
 		if(this.getToken()){
@@ -48,11 +60,7 @@
 		this.setToken();
 	}
 
-	authTokenFactory.activeAccount = function(token){
-
-		return $http.put('/api/activate/' + token);
-	}
-
+	
 
  	return authTokenFactory;
  });
@@ -72,10 +80,23 @@ app.factory('AuthInterceptor', function($window){
 
 });
 
+app.directive('validPasswordC', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue, $scope) {
+                var noMatch = viewValue != scope.regForm.upass.$viewValue
+                ctrl.$setValidity('noMatch', !noMatch)
+            })
+        }
+    }
+});
+
 //angular.module('publicApp')
-  app.controller('LoginCtrl', function ($http,$scope,$rootScope,$timeout,$location,authToken) {
+  app.controller('LoginCtrl', function ($http,$scope,$rootScope,$timeout,$location,authToken,$window,profileId) {
  
  	var app =this;
+ 	app.dispNav = false;
  	$rootScope.$on('$routeChangeStart',function(){
  		$scope.error_msg = false;
  		$scope.success_msg=false;
@@ -83,26 +104,44 @@ app.factory('AuthInterceptor', function($window){
 
    		console.log("logged in");
    		app.loggedIn = true;
+   		app.dispNav =true;
    		authToken.getUser().then(function(data){
-
+   			profileId.curId = data.data.email;
    		//	console.log(data.data.username);
-   		app.username = data.data.username;
+   		app.username =data.data.username;
    			});
   		}else{
   			app.loggedIn = false;
    	   		console.log("NOT Logged in");
    	   		app.username='';
+   	   		app.dispNav =true;
    }
-
+   		if($location.hash() == "_=_") $location.hash(null);
  	});
    
+ 	app.facebook = function(){
+
+ 		// console.log($window.location.host);
+ 		// console.log($window.location.protocol);
+ 		$window.location = $window.location.protocol + '//'+$window.location.host + '/auth/facebook';
+
+ 	}
+
+ 	app.google = function(){
+
+ 		// console.log($window.location.host);
+ 		// console.log($window.location.protocol);
+ 		$window.location = $window.location.protocol + '//'+$window.location.host + '/auth/google';
+
+ 	}
+
   	app.loginUser = function(log){
 	//e.preventDefault();
-	console.log(this.log.username+"--------using this");
+	//console.log(this.log.username+"--------using this");
 	//console.log($scope.log.username +"------using scope");
 	$http.post('/api/authenticate',this.log)
 	.then(function(response){
-		console.log(response.data);
+	//	console.log(response.data);
 		if(response.data.message){
 
 			$scope.error_msg = response.data['message'];
@@ -133,4 +172,29 @@ app.factory('AuthInterceptor', function($window){
 
 
 
-  });
+  })
+
+app.controller('facebookCtrl' ,function($http,$location,$scope,authToken,$routeParams,$window){
+	var app = this;
+	if($window.location.pathname == '/facebookerror'){
+
+		$scope.error_msg = "Facebook account not found.";
+	}else{
+		var token = $routeParams.token
+		authToken.facebook(token);
+		$location.path('/home');
+	}
+})
+
+
+app.controller('googleCtrl' ,function($http,$location,$scope,authToken,$routeParams,$window){
+	var app = this;
+	if($window.location.pathname == '/googleerror'){
+
+		$scope.error_msg = "Google account not found.";
+	}else{
+		var token = $routeParams.token
+		authToken.facebook(token);
+		$location.path('/home');
+	}
+})

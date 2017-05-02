@@ -23,7 +23,7 @@ YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
           <!--<form class="regForm" name="regForm" method="POST" action="/users/register">-->
           <form name = "regForm" ng-submit="register.registerUser(user)" class = "form" novalidate>
          
-        <div class="form-group" ng-class="{ 'has-error' : (regForm.uname.$invalid && !regForm.uname.$pristine) || (regForm.uname.$invalid && regForm$submitted) ,'has-success' : (regForm.uname.$valid && !regForm.uname.$pristine)}">
+        <div class="form-group" ng-class="{ 'has-error' : (regForm.uname.$invalid && !regForm.uname.$pristine) || (regForm.uname.$invalid && regForm.$submitted) ,'has-success' : (regForm.uname.$valid && !regForm.uname.$pristine)}">
             <label>Name</label>
             <input type="text" name="uname" ng-minlength ='3' ng-maxlength ='20' class="form-control" ng-model="register.user.name" placeholder="Please enter name" required>
             <p ng-show="regForm.uname.$error.required && !regForm.uname.$pristine" class="help-block">Your name is required.
@@ -45,8 +45,9 @@ YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
         </div>
             <div class="form-group" ng-class=" {'has-error' : regForm.upass2.$invalid && !regForm.upass2.$pristine }">
             <label>Confrim Password </label>
-            <input type="password" name="upass2" class="form-control" ng-model="register.user.confirmpass" placeholder="please enter confirm password" required>
-            <p ng-show="regForm.upass2.$invalid && !regForm.upass2.$pristine" class="help-block">Confirm password is required.</p>
+            <input type="password" name="upass2" class="form-control" ng-model="register.user.confirmpass" placeholder="please enter confirm password" valid-password-c required >
+            <!-- <p ng-show="!regForm.upass2.$error.required && !regForm.upass2.$pristine" class="help-block">Confirm password is required.</p> -->
+            <p class="help-block" ng-show="!regForm.upass2.$error.required && regForm.upass2.$error.noMatch && regForm.upass.$dirty">* Passwords do not match.</p>
         </div>
           <button type="submit" class="btn btn-primary" ng-disabled="regForm.$invalid">Submit</button>
         </form>
@@ -54,13 +55,13 @@ YOUTUBE URL :::::::::: https://www.youtube.com/watch?v=_5GYyIPklD4
 
         </div>
         <br>
-  <div class="row show-hide-message col-md-6 col-md-offset-2" ng-show="success_msg">
+  <div class="row show-hide-message col-md-6 col-xs-6 col-md-offset-2" ng-show="success_msg">
         
         <div class="alert alert-success"> {{success_msg}}</div>
       </div>
       </br>
 
-       <div class="row show-hide-message col-md-6 col-md-offset-2" ng-show="error_msg">
+       <div class="row show-hide-message col-md-6 col-xs-6 col-md-offset-2" ng-show="error_msg">
         
         <div class="alert alert-danger"> {{error_msg}}</div>
       </div>

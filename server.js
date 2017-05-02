@@ -1,3 +1,4 @@
+
 var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -5,7 +6,7 @@ var logger = require('morgan');
 var passport  = require ('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
+//var session = require('express-session');
 
 
 
@@ -33,35 +34,29 @@ mongoose.connect('mongodb://localhost:27017/contactlist', function(err){
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/public/app'));
+//app.use(express.static(__dirname + '/public/app/images'));
 app.use(express.static(__dirname + '/public/bower_components'));
 //app.use('/', express.static(__dirname + '/public'));
 //app.use(express.static(path.join(__dirname, '/public/bower_components')));
 
-;
 
 app.use(cookieParser());
-app.use(session({
-  secret: 'secret',
-  saveUninitialized:true,
-  resave:true
 
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 
 
 var routes = require('./routes/contacts');
 var users = require('./routes/users');
+require('./routes/passport')(app,passport);
 
 app.use('/api', routes);
-app.use('/api', users)
+app.use('/api', users);
+
 
 
 
@@ -83,9 +78,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -97,7 +90,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -107,6 +99,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 */
 module.exports = app;
+
+  
+
