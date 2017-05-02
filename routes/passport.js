@@ -38,7 +38,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new FacebookStrategy({
     clientID: '1934688693419343',
     clientSecret: '81c9d622041d9b81000dff295aef9cbc',
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    callbackURL: "https://young-citadel-64857.herokuapp.com/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'photos', 'email']
   },
     function(accessToken, refreshToken, profile, done) {
@@ -82,7 +82,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
     clientID: '1034399893339-28berkvh4rje0i7i13otr9gakhqmr8ic.apps.googleusercontent.com',
     clientSecret: '4k5v2HoUaKbo_7o2F5WZUwbj',
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "https://young-citadel-64857.herokuapp.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
 
