@@ -15,7 +15,7 @@ var app = express();
 
 
 //database configuration
-mongoose.connect('mongodb://localhost:27017/contactlist', function(err){
+mongoose.connect('mongodb://prithwiC:Pangolin999(@ds129281.mlab.com:29281/contactlist', function(err){
   if(!err) {
     console.log("Connected to Contactlist database.");
   }else{
