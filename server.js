@@ -6,6 +6,7 @@ var logger = require('morgan');
 var passport  = require ('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//var fs = require('fs');
 //var session = require('express-session');
 
 
@@ -15,7 +16,7 @@ var app = express();
 
 
 //database configuration
-mongoose.connect('mongodb://prithwiC:Pangolin999(@ds129281.mlab.com:29281/contactlist', function(err){
+mongoose.connect('mongodb://localhost:27017/contactlist', function(err){
   if(!err) {
     console.log("Connected to Contactlist database.");
   }else{
@@ -46,8 +47,13 @@ app.use(express.static(__dirname + '/public/bower_components'));
 
 app.use(cookieParser());
 
+// fs.readFile("package.json","utf8" , function(err,data){
+// if(err) throw err;
+//   console.log(data);
+// });
 
 
+// console.log(__filename);
 
 
 var routes = require('./routes/contacts');
@@ -63,14 +69,43 @@ app.use('/api', users);
 app.get('*' , function(req,res){
 
   return res.sendFile(__dirname+'/public/app/index.html');
+
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port,function(err){
+var server = app.listen(port,function(err){
   if(!err)
     console.log("Server running at port 3000");
 
 });
+
+var io = require('socket.io').listen(server);
+var users = [];
+io.on('connection' ,function (socket){
+  // console.log("using sockets");
+  // console.log(socket.id);
+  socket.on("new-msg" , function(msg){
+  //  console.log(msg);
+      io.emit("recieve-msg" ,msg);
+
+  });
+
+  socket.on("request-user" , function(data){
+   // console.log(data.username);
+    if(users.map(function(o) { return o.username; }).indexOf(data.username) == -1){
+      users.push({username:data.username});
+      io.emit("get-user" , users);
+      var username = data.username;
+      
+      }else{
+       io.emit("get-user" , users);
+    }
+      //console.log(users);
+  });
+
+
+});
+
 /*
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
