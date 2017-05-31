@@ -1,0 +1,473 @@
+<!DOCTYPE html> <html> <head>     <title>JS </title>     <script src="https://
+ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>     <style
+type="text/css">         /*div.cont1 {             border-radius: 10px;
+background: green;             height:200px;             width:300px;
+box-shadow: 11px 11px #eee, 11px 11px #eee, 11px 11px #eee, 11px 11px #eee;
+}*/         .cont1 span{color:red;}         /*.cont2 span{color:green;}*/
+.red {color:red;}         .blue{color:blue;}
+input[type="date"] {
+	color:red;
+}
+	</style>
+
+</head>
+<body>
+<input type="date" name="">
+<input type="time" name="">
+<input type="tel" name="">
+ <input list="browsers">
+
+<datalist id="browsers">
+  <option value="Internet Explorer">
+  <option value="Firefox">
+  <option value="Chrome">
+  <option value="Opera">
+  <option value="Safari">
+</datalist> 
+<div class = "container">
+	<div class="cont1">
+		Container 1
+		<span class="spanone">Inner Span</span>
+		<span class="spantwo">Inner Span 2</span>
+	</div>
+	<div class="cont2">
+		Container 2
+		<span class="span2one red">Inner Span 1</span>
+		<span class="span2two">Inner span 2</span>
+	</div>
+<ul>
+	<li>Js</li>
+	<li>HTML5</li>
+	<li>CSS3</li>
+	<li>Ajax</li>
+	<li>jQuery</li>
+</ul>
+<button>clickme</button>
+<span id='selitem'></span>
+<select id='sel'>
+	<option>js</option>
+	<option>HTML5</option>
+	<option>CSS3</option>
+</select>
+</div>
+<table class="one" border=1>
+	<tr>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+</table>
+<table class="two" border=1>
+	<tr>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+	<tr class="mytr">
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+	</tr>
+</table>
+<script type="text/javascript">
+//$pc = jQuery.noConflict();
+$(document).ready(() =>{
+	let val = $(".two tr:nth-child(1) td:nth-child(1)").text();
+	console.log(val+"------------------");
+	let chekc = $(".two tr:nth-child(2) td:nth-child(2)").is(":empty");
+	console.log(chekc+"------------------->>>");
+	$(".one td:odd").css("background" ,"#eee");
+	$(".two td:even").css("color" ,"red");
+	$(".cont2 span:first").removeClass("red").addClass("blue");
+	$("div .cont1 span:nth-child(1)").css("color","green");
+	$('button').one('click' , () => {
+		//$(".two tr").each(()=>{
+
+		// const len = $("li").length;
+		// console.log(len);
+		//})
+	//		$("ul").detach();
+		$("ul li:nth-child(3)").slideToggle();
+	});
+	$(".cont2 span:eq(0)").css("background","yellow");
+	$("#sel").change(() =>{
+
+		$('#selitem').html($('#sel').val());
+	})
+$.ajax({
+url : '/api/reglist',
+method:'GET',
+success: function(data){
+
+	console.log(data.data);
+},
+error:function(){
+	console.log("No data found");
+}
+
+})
+});
+
+	// var user = {};
+	// user.name = "pinak";
+	// user.id="0166314";
+	// console.log(user.id);
+
+// var user = {
+
+// 	name:"pinak",
+// 	id:"0166314",
+// 	displayInfo : function(){
+
+// 		console.log(this.name+" : "+this.id);
+// 	}
+// }
+
+// user.displayInfo();
+
+// var person =[{
+
+// 	name:"pinak",
+// 	mob:"9986635682"
+// }]
+// function celebrityName(firstName){
+//     var nameIntro = "This celebrity is ";
+//     // this inner function has access to the outer function's variables, including the parameter​
+//    function lastName(theLastName) {
+//         return nameIntro + firstName + "-" + theLastName;
+//     }
+//     return lastName;
+// }
+// ​​var mjName = celebrityName("Michael"); 
+// // At this juncture, the celebrityName outer function has returned.​
+// ​
+// ​// The closure (lastName) is called here after the outer function has returned above​
+// ​// Yet, the closure still has access to the outer function's variables and parameter​
+// mjName ("Jackson"); // This celebrity is Michael Jackson 
+
+//console.log(mjName);
+
+// var arr = [
+// {username : "pinak"},
+// {username : "prithwi"},
+// {username :"test"}
+
+// ]
+
+// var stat  = arr.map(function(o) { return o.username; }).indexOf("test");
+// console.log(stat);
+// var person = [];
+// person.name="pinak";
+// person.mob = "9986635682";
+
+// person.push({name:"jhimli" , mob:"8336061205",id:"0166314"});
+// person.push({name:"maa" , mob:"8767687686"})
+
+// console.log(typeof(person));
+// console.log(person);
+
+// function user(name , id ){
+
+// 	this.name = name;
+// 	this.id  = id;
+// 	this.getInfo = function(){
+// 		console.log(this.name+" : "+this.id);
+
+// 	 }
+// }
+
+// function user (name,age){
+
+// var person = {};
+
+// person.name = name,
+// person.age = age 
+
+// return person;
+
+// }
+
+// function user(name,age){
+
+// 	this.name = name,
+// 	this.age = age
+
+
+// }
+
+// var person1 = new user("prithwi Raj Choudhury" , "34");
+
+// //var person1 = user("prithwi Raj Choudhury" , "34");
+// console.log(person1);
+
+// user.prototype.addMob = function(mob){
+// 	this.mob=mob;
+// 	console.log(this.name+" has a new number"+this.mob);
+
+// }
+
+// // user.prototype.getInfo = function(){
+// // 	console.log(this.name+" : "+this.id);
+
+// // }
+
+// // var prithwi = new user;
+// // //console.log(typeof(prithwi));
+// // prithwi.name = "PRC";
+// // prithwi.id = "0166314";
+// // prithwi.addMob("9986635682");
+// // prithwi.getInfo();	
+
+// // users = [{username:"sf"} ,{username:"sdg"}]
+
+// // console.log(users);
+
+
+
+// function add(x,y){
+
+// 	return x+y;
+// }
+
+// (function(){
+// 	function make_double(x){
+// 	return add(x,x);
+// }
+
+// console.log(make_double(10));
+// })();
+
+// var Person = {
+// 	name : "xxx",
+// 	age : "yyy"
+// }
+
+// // console.log(Person.name+" "+Person.age);
+
+// Person.name = "pinak";
+// Person.age = 30;
+
+
+
+// function createperson(name,age){
+// 	var obj = {};
+// 	obj.name = name;
+// 	obj.age = age;
+// 	obj.showDet = function(){
+
+// 		console.log(this.name+" : "+this.age);
+// 	};
+
+// 	return obj;
+// }
+
+// var person1 = createperson("pinak","30");
+// console.log(person1.showDet());
+
+// function ConstPerson(name,age){
+
+// 	this.name = name;
+// 	this.age = age;
+// 	this.showDetails = function(){
+
+// 		console.log(this.name+" "+this.age);
+// 	}
+// }
+
+// // ConstPerson.prototype.showAge = function(){
+
+// // 	console.log("My age is "+this.age);
+// // }
+// person.prototype = new ConstPerson();
+// person.prototype.constructor = person;
+
+
+
+// var secPerosn = new person("prithwiraj" , 30);
+// secPerosn.showDetails();
+
+// var firstperson = new ConstPerson("pinak" , 35)
+// firstperson.showDetails();
+// firstperson.showAge();
+
+class CreatePerson{
+
+	constructor(name,age){
+
+		this.name= "pinak"
+		this.age = 40;
+	}
+	
+	showDetails(){
+
+			console.log(this.name+":" +this.age);
+	}
+
+}
+
+function CreatePerson1(name,age){
+	this.name = name;
+	this.age = age;
+
+}
+
+CreatePerson1.prototype.showDetails = function(){
+
+	console.log(this.name+":" +this.age);
+}
+
+let person2 = new CreatePerson1("pinak" , 40);
+person2.showDetails();
+
+class personDetails extends CreatePerson {
+
+	constructor(name,age,country){
+		super(name,age);
+		this.country = country;
+	}
+
+	showID(){
+
+		console.log(super.name+" is from "+this.country+" ,age: "+super.age);
+	}
+}
+// let person2 = new personDetails("prithwi" , "30" , "India");
+// person2.showID();
+let person1 = new CreatePerson("pinak","30");
+person1.showDetails();
+
+
+let x=3;
+function seeChange(y){
+	if(y){
+	console.log(x);
+}
+console.log(x);
+}
+
+seeChange(false);
+let arr = [{"name":"pinak"},{"name":"jhimli"},{"name":"baba"},{"name":"maa"},{"name":"aunty"}];
+
+var arrlen = arr.map(function(item,index){
+	let items = 'name';
+	return item[items].length;
+
+});
+
+console.log(arrlen);
+
+var addarr = arr.reduce(function(prev,cur){
+
+	return prev+ cur;
+});
+
+console.log(addarr);
+
+// arr.forEach(function(ele){
+// 	console.log(ele);
+// });
+
+// for(i=0;i<arr.length;i++){
+
+// 	var ele = arr[i];
+// 	console.log(ele);
+
+// }
+
+
+for (let [index,ele] of arr.entries()){
+	console.log(index+" : "+ele);
+	if(ele.name == "jhimli"){
+		console.log(ele.name.length+"--------------->");
+	}
+}
+
+
+
+var person = {};
+
+person.name= "pinak";
+
+person.showName = function(){
+
+	console.log(this.name)
+};
+
+var xx= function(name,age){
+	this.name = name;
+	this.age = age;
+	this.showNam = function(){
+		console.log(this.name+" "+this.age);
+	}
+
+}
+
+
+var y = new xx("maa","58");
+y.showNam();
+
+function personName(name,age){
+
+	var o = {};
+	o.name = name;
+	o.age = age;
+	o.myName = function(){
+		console.log(this.name+":"+this.age);
+	}
+	return o;
+}
+
+var per = personName("pinak",30);
+per.myName();
+
+pay = "5000";
+
+var disPay = function(){
+	pay = "5001"; // global scope
+	var pay = "5001"; // local scope
+	console.log(pay);
+}
+disPay();
+console.log(pay);
+
+// app.service("myserv" , function(){
+
+// 	this.showname = function(name){
+
+// 		return this.name;
+// 	}
+
+// })
+
+// app.factory("myserv" ,function(){
+
+// return{
+
+// 	showname : function(name){
+// 		return this.name;
+
+// 	}
+// }
+
+// });
+
+</script>
+</body>
+</html>
